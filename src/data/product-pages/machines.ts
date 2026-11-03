@@ -1,5 +1,6 @@
 import { echoFlowPage } from "@/data/product-pages/echo-flow";
 import { echoH2Page } from "@/data/product-pages/echo-h2";
+import { echoRefreshPage } from "@/data/product-pages/echo-refresh";
 import { echoRevivePage } from "@/data/product-pages/echo-revive";
 import { echoRoPage } from "@/data/product-pages/echo-ro";
 import { echoUltimatePage } from "@/data/product-pages/echo-ultimate";
@@ -12,4 +13,5 @@ export const machinePages: Record<string, MachinePageContent> = {
   [echoRoPage.slug]: echoRoPage,
   [echoUltimatePage.slug]: echoUltimatePage,
   [echoRevivePage.slug]: echoRevivePage,
+  [echoRefreshPage.slug]: echoRefreshPage,
 };

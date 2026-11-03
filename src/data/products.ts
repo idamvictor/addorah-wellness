@@ -173,7 +173,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["wellness"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
     reviewCount: 2,
     carouselImage: "/images/home/carousel-echo-refresh.png",
   },
@@ -187,7 +187,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["accessories", "under-sink-kitchen"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-ro-flow-faucet",
@@ -199,7 +199,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["accessories", "under-sink-kitchen"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-ultimate-digital-faucet",
@@ -211,7 +211,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["accessories", "under-sink-kitchen"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-h2-faucet",
@@ -225,7 +225,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["accessories", "under-sink-kitchen"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-machine-replacement-filters",
@@ -238,7 +238,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["replacement-filters", "water-filtration"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-ro-filters",
@@ -251,7 +251,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["replacement-filters", "water-filtration"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-retro-nhm130-filter",
@@ -263,7 +263,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["replacement-filters", "water-filtration"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-pitcher-filter-housing",
@@ -275,7 +275,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["accessories", "water-filtration"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
   {
     slug: "echo-pitcher-replacement-cartridge",
@@ -288,7 +288,7 @@ export const products: Product[] = [
     badges: [],
     categories: ["replacement-filters", "water-filtration"],
     status: "available",
-    hasDetailPage: false,
+    hasDetailPage: true,
   },
 ];
 

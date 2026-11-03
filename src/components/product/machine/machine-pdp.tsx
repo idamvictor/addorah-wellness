@@ -3,7 +3,9 @@ import Link from "next/link";
 import { FlaskGallery } from "@/components/product/flask-gallery";
 import { MachineBuyBox } from "@/components/product/machine/machine-buy-box";
 import {
+  BandCards,
   CertsRow,
+  Columns,
   Checklist,
   FeatureSplit,
   InstallOptions,
@@ -44,6 +46,10 @@ function renderSection(section: MachineSection, index: number, product: Product,
       return <QuoteBand key={index} {...section} />;
     case "specs":
       return <SpecTable key={index} {...section} />;
+    case "band":
+      return <BandCards key={index} {...section} />;
+    case "columns":
+      return <Columns key={index} {...section} />;
     case "video":
       return <VideoIntro key={index} {...section} />;
     case "faq":

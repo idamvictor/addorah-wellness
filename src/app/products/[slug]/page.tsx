@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { AccessoryPdp } from "@/components/product/accessory/accessory-pdp";
 import { FlaskPdp } from "@/components/product/flask-pdp";
 import { MachinePdp } from "@/components/product/machine/machine-pdp";
 import { PrebioticPdp } from "@/components/product/prebiotic/prebiotic-pdp";
 import { WaitlistPdp } from "@/components/product/waitlist-pdp";
+import { accessoryPages } from "@/data/product-pages/accessories";
 import { machinePages } from "@/data/product-pages/machines";
 import { waitlistPages } from "@/data/product-pages/waitlist";
 import { getProduct, products } from "@/data/products";
@@ -31,6 +33,9 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
 
   const machine = machinePages[slug];
   if (machine) return <MachinePdp product={product} content={machine} />;
+
+  const accessory = accessoryPages[slug];
+  if (accessory) return <AccessoryPdp product={product} content={accessory} />;
 
   if (slug === "hydrogen-prebiotic") return <PrebioticPdp product={product} />;
 

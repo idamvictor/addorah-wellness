@@ -414,6 +414,68 @@ export function SpecTable({ heading, rows, links, note, image }: Section<"specs"
   );
 }
 
+export function BandCards({ kicker, heading, body, image, lead, cards }: Section<"band">) {
+  return (
+    <section className="bg-night text-white">
+      <div className="relative flex min-h-[560px] items-end overflow-hidden lg:min-h-[652px]">
+        <Image src={image.src} alt={image.alt} fill sizes="100vw" className="object-cover" />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-t from-[rgba(18,18,18,0.92)] via-[rgba(18,18,18,0.55)] via-42% to-[rgba(18,18,18,0.15)]"
+        />
+        <div className="relative px-6 py-16 lg:py-[88px]">
+          {kicker && (
+            <Kicker tone="line" className="text-[#cdd3d8] [&>span]:bg-[#cdd3d8]">
+              {kicker}
+            </Kicker>
+          )}
+          <h2 className={cn(sectionHeading, "max-w-[1272px] pt-[18px] text-[44px] leading-[0.98] sm:text-[72px]")}>{heading}</h2>
+          <p className="max-w-[660px] pt-[22px] text-[17px] leading-[1.6] text-pretty text-[#d6d4d5] sm:text-[19px]">{body}</p>
+        </div>
+      </div>
+      <div className="px-6 pt-[72px] pb-24">
+        {lead && <p className="max-w-[754px] pb-14 text-[17px] leading-[1.6] text-pretty text-[#d6d4d5] sm:text-[19px]">{lead}</p>}
+        <ol className="grid gap-11 sm:grid-cols-2 lg:grid-cols-4">
+          {cards.map((card, i) => (
+            <li key={card.title}>
+              <span className="text-brand-gradient font-heading text-[44px] leading-[44px] font-bold">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="pt-4 font-heading text-2xl leading-[25.2px] font-medium tracking-[-0.02em]">{card.title}</h3>
+              <p className="pt-2.5 text-[15px] leading-6 text-pretty text-[#a7a5a6]">{card.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+export function Columns({ kicker, kickerTone, heading, body, columns }: Section<"columns">) {
+  return (
+    <section className="px-6 py-20 lg:py-24">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        <div className="max-w-[900px]">
+          {kicker && <Kicker tone={kickerTone}>{kicker}</Kicker>}
+          <h2 className={cn(sectionHeading, "pt-[18px] text-[40px] leading-[0.96] text-ink sm:text-[64px]")}>{heading}</h2>
+        </div>
+        <p className="max-w-[377px] text-base leading-[25.6px] text-pretty text-stone">{body}</p>
+      </div>
+      <ul className="grid gap-[30px] pt-14 md:grid-cols-3">
+        {columns.map((column) => (
+          <li key={column.label} className="border-t-[1.6px] border-ink pt-[22px]">
+            <p className="font-heading text-[11px] leading-[16.5px] tracking-[1.54px] text-[#807c85] uppercase">{column.label}</p>
+            <h3 className="pt-3 font-heading text-[28px] leading-[34px] font-bold tracking-[-0.02em] text-ink sm:text-[34px]">
+              {column.title}
+            </h3>
+            <p className="max-w-[372px] pt-3 text-[15px] leading-6 text-pretty text-stone">{column.body}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function VideoIntro({ heading, body, byline, thumbnail }: Section<"video">) {
   return (
     <section className="grid items-center gap-[60px] bg-mist px-6 py-20 lg:grid-cols-2 lg:py-24">

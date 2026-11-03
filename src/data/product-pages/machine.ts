@@ -100,6 +100,22 @@ export type MachineSection =
       note?: string;
       image: ImageRef & { fit?: "cover" | "contain" };
     }
+  /** Full-bleed image band with a headline, then an optional lead paragraph and numbered cards on dark. */
+  | ({
+      kind: "band";
+      heading: string;
+      body: string;
+      image: ImageRef;
+      lead?: string;
+      cards: { title: string; body: string }[];
+    } & Kicker)
+  /** Heading row, then labelled columns under a heavy top rule (white background). */
+  | ({
+      kind: "columns";
+      heading: string;
+      body: string;
+      columns: { label: string; title: string; body: string }[];
+    } & Kicker)
   /** Copy beside a video thumbnail (the video itself isn't supplied yet). */
   | { kind: "video"; heading: string; body: string; byline?: string; thumbnail: ImageRef }
   | { kind: "faq"; heading: string; items: Faq[] }
@@ -113,8 +129,7 @@ export type CustomSectionId =
   | "ultimate-four-machines"
   | "ultimate-waters"
   | "ultimate-install"
-  | "revive-seen-in"
-  | "revive-why-bathe";
+  | "revive-seen-in";
 
 export type MachinePageContent = {
   slug: string;

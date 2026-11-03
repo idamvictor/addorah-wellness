@@ -45,7 +45,31 @@ export const echoRevivePage: MachinePageContent = {
   sections: [
     { kind: "certs", logos: machineCerts },
     { kind: "custom", id: "revive-seen-in" },
-    { kind: "custom", id: "revive-why-bathe" },
+    {
+      kind: "band",
+      kicker: "Why bathe in it",
+      heading: "Drinking it reaches your gut. Bathing reaches all of you.",
+      body: "Molecular hydrogen is small enough to pass through skin. A hydrogen bath puts your entire body surface in contact with it at once — every joint, every sore muscle, every square inch of skin — for as long as you stay in the water.",
+      image: { src: `${base}/why-bathe.jpg`, alt: "" },
+      cards: [
+        {
+          title: "Whole-body contact",
+          body: "Skin is your largest organ. A soak exposes all of it to hydrogen-rich water instead of one glass at a time.",
+        },
+        {
+          title: "Recovery, not routine",
+          body: "Studied alongside sauna and cold plunge as a recovery modality — with none of the heat shock or the shivering.",
+        },
+        {
+          title: "Skin and comfort",
+          body: "Published work on hydrogen bathing looks at wrinkles, blotches and skin conditions such as psoriasis.",
+        },
+        {
+          title: "Nothing added",
+          body: "No salts, no oils, no chemistry. Electrolysis splits the water; the hydrogen goes into your tub.",
+        },
+      ],
+    },
     {
       kind: "split",
       theme: "mist",
