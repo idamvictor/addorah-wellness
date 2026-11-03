@@ -7,11 +7,15 @@ import { FlaskGallery } from "@/components/product/flask-gallery";
 import { ProductCard } from "@/components/sections/product-card";
 import { StarRating } from "@/components/sections/star-rating";
 import type { AccessoryPageContent } from "@/data/product-pages/accessory";
-import { getProduct, type Product } from "@/data/products";
+import type { Product } from "@/data/products";
+import { listProducts } from "@/lib/catalog";
 
 /** Simple product page used for filters, faucets and other accessories. */
-export function AccessoryPdp({ product, content }: { product: Product; content: AccessoryPageContent }) {
-  const related = content.related.map((slug) => getProduct(slug)).filter((item): item is Product => Boolean(item));
+export async function AccessoryPdp({ product, content }: { product: Product; content: AccessoryPageContent }) {
+  const catalog = await listProducts();
+  const related = content.related
+    .map((slug) => catalog.find((item) => item.slug === slug))
+    .filter((item): item is Product => Boolean(item));
 
   return (
     <>

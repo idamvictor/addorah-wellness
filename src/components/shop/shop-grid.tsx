@@ -13,8 +13,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getCategory, shopFilterCategories } from "@/data/categories";
-import { type Product, products } from "@/data/products";
+import type { Product } from "@/data/products";
 import { cn } from "@/lib/utils";
+import { useCatalog } from "@/providers/catalog-provider";
 
 const sortOptions = [
   { value: "featured", label: "Featured" },
@@ -46,6 +47,7 @@ const chipClass =
 const chipActiveClass = "border-ink bg-ink text-white hover:text-white";
 
 export function ShopGrid() {
+  const products = useCatalog();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

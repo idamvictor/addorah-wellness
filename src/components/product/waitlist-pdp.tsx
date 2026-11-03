@@ -5,10 +5,11 @@ import { FaqList } from "@/components/sections/faq-section";
 import { ProductCard } from "@/components/sections/product-card";
 import { productPageFaqs } from "@/data/faqs";
 import type { WaitlistPageContent } from "@/data/product-pages/waitlist";
-import { getProduct, type Product } from "@/data/products";
+import type { Product } from "@/data/products";
+import { getProduct } from "@/lib/catalog";
 
-export function WaitlistPdp({ content, product }: { content: WaitlistPageContent; product: Product }) {
-  const related = [getProduct("echo-flask")].filter((item): item is Product => Boolean(item));
+export async function WaitlistPdp({ content, product }: { content: WaitlistPageContent; product: Product }) {
+  const related = [await getProduct("echo-flask")].filter((item): item is Product => Boolean(item));
 
   return (
     <>

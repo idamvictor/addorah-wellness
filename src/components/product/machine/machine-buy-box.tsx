@@ -6,8 +6,10 @@ import { useState } from "react";
 import { StarRating } from "@/components/sections/star-rating";
 import { InertLink } from "@/components/ui/inert-link";
 import type { MachineBuyBox as BuyBoxData } from "@/data/product-pages/machine";
-import { getProduct, type Product } from "@/data/products";
+import type { Product } from "@/data/products";
 import { formatNGN } from "@/lib/format";
+import { variantPrice } from "@/lib/pricing";
+import { useProduct } from "@/providers/catalog-provider";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/providers/app-store-provider";
 
@@ -38,10 +40,10 @@ export function MachineBuyBox({
   const addItem = useAppStore((state) => state.addItem);
   const [variant, setVariant] = useState(data.variants?.options[0]?.name);
   const [withAddOn, setWithAddOn] = useState(false);
-  const addOnProduct = data.addOn ? getProduct(data.addOn.slug) : undefined;
+  const addOnProduct = useProduct(data.addOn?.slug);
 
-  const price = product.price ?? 0;
-  const savings = product.compareAtPrice ? product.compareAtPrice - price : 0;
+  const { price, compareAt } = variantPrice(product, variant);
+  const savings = compareAt ? compareAt - price : 0;
 
   const addToCart = () => {
     addItem({ slug: product.slug, price, variant });
@@ -64,8 +66,8 @@ export function MachineBuyBox({
         <span className="text-[28px] leading-[51px] font-semibold tracking-[-0.01em] text-ink sm:text-[34px]">
           {formatNGN(price)}
         </span>
-        {product.compareAtPrice && (
-          <span className="text-[19px] leading-[28.5px] text-[#807c85] line-through">{formatNGN(product.compareAtPrice)}</span>
+        {compareAt && (
+          <span className="text-[19px] leading-[28.5px] text-[#807c85] line-through">{formatNGN(compareAt)}</span>
         )}
         {savings > 0 && <span className="text-sm leading-[21px] text-[#807c85]">Save {formatNGN(savings)}</span>}
       </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { Kicker, sectionHeading } from "@/components/product/machine/section-parts";
-import { getProduct } from "@/data/products";
+import { getProduct } from "@/lib/catalog";
 import { formatNGN } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -27,9 +27,9 @@ const machines = [
 ];
 
 /** "It replaces four machines, not one." — dark section with four numbered cards and two headline stats. */
-export function UltimateFourMachines() {
+export async function UltimateFourMachines() {
   // The design's "$1.37 per day" is the US price over ten years; the same sum is done on this store's NGN price.
-  const price = getProduct("echo-ultimate")?.price ?? 0;
+  const price = (await getProduct("echo-ultimate"))?.price ?? 0;
   const perDay = formatNGN(Math.round(price / 3650)).replace(/\.00$/, "");
 
   return (

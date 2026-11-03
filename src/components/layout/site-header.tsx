@@ -24,11 +24,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { categories } from "@/data/categories";
-import { getProduct } from "@/data/products";
 import { selectCartCount } from "@/stores/app-store";
 import { useAppStore } from "@/providers/app-store-provider";
-
-const featured = getProduct("echo-flask")!;
+import { useProduct } from "@/providers/catalog-provider";
 
 const navItemClass =
   "rounded-[4px] p-1 text-sm leading-[14px] font-medium text-white transition-colors hover:bg-white/10";
@@ -96,8 +94,10 @@ export function SiteHeader() {
 }
 
 function ShopMenu() {
+  const featured = useProduct("echo-flask");
   return (
     <div className="w-[min(475px,calc(100vw-2rem))] p-10">
+      {featured && (
       <NavigationMenuLink
         render={<Link href={`/products/${featured.slug}`} />}
         className="flex items-center gap-4 rounded-xl p-0 hover:bg-white/5 focus:bg-white/5"
@@ -114,8 +114,9 @@ function ShopMenu() {
           <span className="text-base text-white/80">{featured.tagline}</span>
         </span>
       </NavigationMenuLink>
+      )}
 
-      <Separator className="my-8 bg-white/30" />
+      {featured && <Separator className="my-8 bg-white/30" />}
 
       <ul className="flex flex-col gap-1">
         {categories.map((category) => (
@@ -187,6 +188,7 @@ function CartButton() {
 }
 
 function MobileMenu() {
+  const featured = useProduct("echo-flask");
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
@@ -205,6 +207,7 @@ function MobileMenu() {
           </SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-8 overflow-y-auto px-6 py-8">
+          {featured && (
           <Link
             href={`/products/${featured.slug}`}
             onClick={close}
@@ -222,7 +225,8 @@ function MobileMenu() {
               <span className="text-sm text-white/80">{featured.tagline}</span>
             </span>
           </Link>
-          <Separator className="bg-white/30" />
+          )}
+          {featured && <Separator className="bg-white/30" />}
           <ul className="flex flex-col gap-5 text-base font-semibold">
             {categories.map((category) => (
               <li key={category.slug}>

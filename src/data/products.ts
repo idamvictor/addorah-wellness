@@ -25,10 +25,40 @@ export type Product = {
   reviewCount?: number;
   /** Alternate photo used by the home page product carousel. */
   carouselImage?: string;
+  /** Body copy for products without a designed page (generic detail page). */
+  description?: string;
+  /** Admin override of a designed accessory page's base price. */
+  pagePrice?: PriceSet;
+  /** Admin overrides keyed by variant / pack name. */
+  variantPrices?: Record<string, PriceSet>;
 };
 
-/** Shop order matches the "Shop All" grid in Figma. */
-export const products: Product[] = [
+export type PriceSet = {
+  price: number;
+  compareAt?: number;
+  /** Subscribe & Save price, where the page offers it. */
+  subscribe?: number;
+};
+
+export const productBadges: { value: ProductBadge; label: string }[] = [
+  { value: "best-seller", label: "Best seller" },
+  { value: "fsa-hsa", label: "FSA/HSA eligible" },
+  { value: "join-waitlist", label: "Join waitlist" },
+  { value: "waitlist", label: "Waitlist" },
+  { value: "sold-out", label: "Sold out" },
+];
+
+export const productStatuses: { value: ProductStatus; label: string }[] = [
+  { value: "available", label: "Available" },
+  { value: "waitlist", label: "Waitlist" },
+  { value: "sold-out", label: "Sold out" },
+];
+
+/**
+ * Initial catalog. The live catalog is `data/catalog.json` (managed in /admin),
+ * created from this list the first time it is read. Order matches the Figma shop grid.
+ */
+export const seedProducts: Product[] = [
   {
     slug: "echo-flask",
     name: "ECHO Flask Hydrogen Water Bottle",
@@ -291,10 +321,6 @@ export const products: Product[] = [
     hasDetailPage: true,
   },
 ];
-
-export function getProduct(slug: string) {
-  return products.find((product) => product.slug === slug);
-}
 
 export function productHref(product: Product) {
   return product.hasDetailPage ? `/products/${product.slug}` : undefined;

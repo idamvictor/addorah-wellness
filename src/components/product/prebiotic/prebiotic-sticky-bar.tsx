@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import { NOTIFY_EVENT, prebioticPrices } from "@/components/product/prebiotic/prebiotic-buy-box";
+import { NOTIFY_EVENT } from "@/components/product/prebiotic/prebiotic-buy-box";
+import { prebioticPrices } from "@/lib/pricing";
 import type { Product } from "@/data/products";
 import { formatNGN } from "@/lib/format";
 import { cn } from "@/lib/utils";

@@ -14,15 +14,17 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { getProduct, productHref } from "@/data/products";
+import { productHref } from "@/data/products";
 import { formatNGN } from "@/lib/format";
 import { useAppStore } from "@/providers/app-store-provider";
+import { useCatalog } from "@/providers/catalog-provider";
 import { selectCartSubtotal } from "@/stores/app-store";
 
 export function CartDrawer() {
   const open = useAppStore((state) => state.cartOpen);
   const setOpen = useAppStore((state) => state.setCartOpen);
   const items = useAppStore((state) => state.items);
+  const catalog = useCatalog();
   const subtotal = useAppStore(selectCartSubtotal);
   const setQty = useAppStore((state) => state.setQty);
   const removeItem = useAppStore((state) => state.removeItem);
@@ -42,7 +44,7 @@ export function CartDrawer() {
           <>
             <ul className="flex flex-1 flex-col gap-6 overflow-y-auto px-5 py-6">
               {items.map((line) => {
-                const product = getProduct(line.slug);
+                const product = catalog.find((item) => item.slug === line.slug);
                 if (!product) return null;
                 const href = productHref(product);
                 return (

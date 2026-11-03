@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { MachineBuyBox } from "@/data/product-pages/machine";
 import type { Product } from "@/data/products";
 import { formatNGN } from "@/lib/format";
+import { variantPrice } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/providers/app-store-provider";
 
@@ -22,15 +23,15 @@ export function MiniBuyCard({
 }) {
   const addItem = useAppStore((state) => state.addItem);
   const [variant, setVariant] = useState(variants?.options[0]?.name);
-  const price = product.price ?? 0;
+  const { price, compareAt } = variantPrice(product, variant);
 
   return (
     <div className="rounded-2xl border-[0.8px] border-white/20 p-6 sm:p-11">
       <p className={label}>The {product.shortName}</p>
       <p className="flex flex-wrap items-baseline gap-x-3 pt-4">
         <span className="text-[28px] leading-[51px] font-semibold tracking-[-0.01em] sm:text-[34px]">{formatNGN(price)}</span>
-        {product.compareAtPrice && (
-          <span className="text-[19px] leading-[28.5px] text-[#807c85] line-through">{formatNGN(product.compareAtPrice)}</span>
+        {compareAt && (
+          <span className="text-[19px] leading-[28.5px] text-[#807c85] line-through">{formatNGN(compareAt)}</span>
         )}
       </p>
       {blurb && <p className="pt-3.5 text-[15px] leading-6 text-pretty text-[#a7a5a6]">{blurb}</p>}

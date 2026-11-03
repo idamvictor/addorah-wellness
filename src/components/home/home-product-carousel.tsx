@@ -6,8 +6,9 @@ import Link from "next/link";
 import { StarRating } from "@/components/sections/star-rating";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { InertLink } from "@/components/ui/inert-link";
-import { getProduct, type Product, productHref } from "@/data/products";
+import { type Product, productHref } from "@/data/products";
 import { formatNGN } from "@/lib/format";
+import { useCatalog } from "@/providers/catalog-provider";
 
 const carouselSlugs = [
   "echo-flask",
@@ -20,10 +21,6 @@ const carouselSlugs = [
   "echo-one",
   "echo-forty",
 ];
-
-const carouselProducts = carouselSlugs
-  .map((slug) => getProduct(slug))
-  .filter((product): product is Product => Boolean(product));
 
 function CarouselBadge({ product }: { product: Product }) {
   if (product.badges.includes("best-seller")) {
@@ -44,6 +41,11 @@ function CarouselBadge({ product }: { product: Product }) {
 }
 
 export function HomeProductCarousel() {
+  const catalog = useCatalog();
+  const carouselProducts = carouselSlugs
+    .map((slug) => catalog.find((product) => product.slug === slug))
+    .filter((product): product is Product => Boolean(product));
+
   return (
     <section className="py-[70px]">
       <div className="mx-auto max-w-[1480px] px-5 sm:px-10">

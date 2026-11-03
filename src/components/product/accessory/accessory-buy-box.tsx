@@ -8,6 +8,7 @@ import { StarRating } from "@/components/sections/star-rating";
 import type { AccessoryPageContent } from "@/data/product-pages/accessory";
 import type { Product } from "@/data/products";
 import { formatNGN } from "@/lib/format";
+import { accessoryPrice } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/providers/app-store-provider";
 
@@ -32,7 +33,7 @@ export function AccessoryBuyBox({ product, content }: { product: Product; conten
   const [plan, setPlan] = useState<"once" | "subscribe">("once");
 
   const variant = options?.[variantIndex];
-  const price = variant?.price ?? content.price;
+  const price = accessoryPrice(product, content, variant?.name);
   const current = plan === "subscribe" && price.subscribe !== undefined ? price.subscribe : price.oneTime;
 
   const addToCart = () => {

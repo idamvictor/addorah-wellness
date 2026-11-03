@@ -6,27 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import { StarRating } from "@/components/sections/star-rating";
 import type { Product } from "@/data/products";
 import { formatNGN } from "@/lib/format";
+import { prebioticPacks as packs, prebioticPrices } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 
 const base = "/images/products/hydrogen-prebiotic";
 
 /** Fired by the sticky bar to open the notify form here. */
 export const NOTIFY_EVENT = "prebiotic:notify";
-
-const packs = [
-  { label: "30-Day Supply", multiple: 1 },
-  { label: "60-day Supply", multiple: 2 },
-  { label: "90-day Supply", multiple: 3 },
-];
-
-const SUBSCRIBE_DISCOUNT = 0.3;
-
-export function prebioticPrices(product: Product, multiple = 1) {
-  const oneTime = (product.price ?? 0) * multiple;
-  const compare = (product.compareAtPrice ?? 0) * multiple;
-  const subscribe = Math.round(oneTime * (1 - SUBSCRIBE_DISCOUNT) * 100) / 100;
-  return { oneTime, compare, subscribe, saving: oneTime - subscribe };
-}
 
 const benefits = [
   { icon: `${base}/icon-energy.svg`, label: "More Energy" },
@@ -41,7 +27,7 @@ export function PrebioticBuyBox({ product, rating, reviewCount }: { product: Pro
   const [notifyOpen, setNotifyOpen] = useState(false);
   const notifyRef = useRef<HTMLDivElement>(null);
 
-  const prices = prebioticPrices(product, packs[pack].multiple);
+  const prices = prebioticPrices(product, packs[pack]);
 
   useEffect(() => {
     const open = () => {

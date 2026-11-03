@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Geist_Mono, Golos_Text } from "next/font/google";
-import { AnnouncementBar } from "@/components/layout/announcement-bar";
-import { CartDrawer } from "@/components/layout/cart-drawer";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { AppStoreProvider } from "@/providers/app-store-provider";
 import "./globals.css";
 
@@ -40,13 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${golos.variable} ${bebas.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-ink">
-        <AppStoreProvider>
-          <AnnouncementBar />
-          <SiteHeader />
-          <main className="flex flex-1 flex-col">{children}</main>
-          <SiteFooter />
-          <CartDrawer />
-        </AppStoreProvider>
+        <AppStoreProvider>{children}</AppStoreProvider>
       </body>
     </html>
   );
