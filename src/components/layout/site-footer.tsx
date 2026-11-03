@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { BrandWordmark } from "@/components/layout/brand-wordmark";
+import { InstallAppButton } from "@/components/pwa/install-app-button";
 import { InertLink } from "@/components/ui/inert-link";
 import {
   footerColumns,
@@ -31,6 +32,10 @@ export function SiteFooter() {
               </li>
             ))}
           </ul>
+          <InstallAppButton
+            label="Get the app"
+            className="rounded-full border-[0.8px] border-ink px-4 py-2 text-sm leading-[21px] font-medium transition-colors hover:bg-ink hover:text-white"
+          />
           <p className="mt-auto text-sm leading-[21px]">
             Copyright © {site.copyrightYear} {site.name}
           </p>

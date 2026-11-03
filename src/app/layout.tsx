@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Geist_Mono, Golos_Text } from "next/font/google";
+import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
 import { AppStoreProvider } from "@/providers/app-store-provider";
 import "./globals.css";
 
@@ -27,6 +28,13 @@ export const metadata: Metadata = {
   },
   description:
     "Hydrogen water bottles, machines and filtration systems from Addorah Wellness.",
+  applicationName: "Addorah Wellness",
+  // Installed app (PWA); the manifest comes from app/manifest.ts.
+  appleWebApp: { capable: true, title: "Addorah", statusBarStyle: "default" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#231f20",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -37,6 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-white text-ink">
         <AppStoreProvider>{children}</AppStoreProvider>
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
