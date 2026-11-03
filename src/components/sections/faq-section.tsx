@@ -38,9 +38,40 @@ export function FaqList({
   variant = "lined",
 }: {
   items: Faq[];
-  /** "lined" is the home page list, "cards" the bordered product page style. */
-  variant?: "lined" | "cards";
+  /**
+   * "lined" is the home page list, "cards" the bordered waitlist page style,
+   * "circle" the machine pages (lined rows with a round + toggle).
+   */
+  variant?: "lined" | "cards" | "circle";
 }) {
+  if (variant === "circle") {
+    return (
+      <Accordion className="border-t-[0.8px] border-[#deddde]">
+        {items.map((faq) => (
+          <AccordionItem
+            key={faq.question}
+            value={faq.question}
+            className="border-b-[0.8px] border-[#deddde] not-last:border-b-[0.8px]"
+          >
+            <AccordionTrigger className="items-center gap-6 rounded-none px-1 py-6 text-lg leading-[25.2px] font-medium text-ink hover:no-underline [&>[data-slot=accordion-trigger-icon]]:hidden">
+              {faq.question}
+              <span
+                aria-hidden
+                className="flex size-[30px] shrink-0 items-center justify-center rounded-full border-[0.8px] border-[#deddde] bg-white text-[17px] leading-none transition-transform duration-200 group-aria-expanded/accordion-trigger:rotate-45"
+              >
+                +
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="pr-11 pb-[26px] pl-1 text-base leading-[25.6px] text-pretty text-stone">
+              <Answer answer={faq.answer} />
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    );
+  }
+
+
   if (variant === "cards") {
     return (
       <Accordion className="gap-4">

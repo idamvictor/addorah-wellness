@@ -6,13 +6,14 @@ import { ExpertSlider } from "@/components/product/expert-slider";
 import { FeelBetterSlider } from "@/components/product/feel-better-slider";
 import { FlaskGallery } from "@/components/product/flask-gallery";
 import { FlaskProductInfo } from "@/components/product/flask-product-info";
-import { FlaskReviews } from "@/components/product/flask-reviews";
+import { ProductReviews } from "@/components/sections/product-reviews";
 import { TechDiagram } from "@/components/product/tech-diagram";
 import { Benefits } from "@/components/sections/benefits";
 import { ComparisonTable } from "@/components/sections/comparison-table";
 import { FaqSection } from "@/components/sections/faq-section";
 import { PressLogos } from "@/components/sections/press-logos";
 import { homeFaqGroups } from "@/data/faqs";
+import { flaskReviews } from "@/data/reviews";
 import { flaskGallery } from "@/data/product-pages/echo-flask";
 import type { Product } from "@/data/products";
 
@@ -59,7 +60,7 @@ export function FlaskPdp({ product }: { product: Product }) {
       <FlaskCertifications />
       <AppIntegrations />
       <FaqSection groups={homeFaqGroups} showMoreLink className="pt-16" />
-      <FlaskReviews />
+      <ProductReviews data={flaskReviews} productName={product.shortName} />
     </>
   );
 }

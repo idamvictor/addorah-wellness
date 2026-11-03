@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { FlaskPdp } from "@/components/product/flask-pdp";
+import { MachinePdp } from "@/components/product/machine/machine-pdp";
+import { PrebioticPdp } from "@/components/product/prebiotic/prebiotic-pdp";
 import { WaitlistPdp } from "@/components/product/waitlist-pdp";
+import { machinePages } from "@/data/product-pages/machines";
 import { waitlistPages } from "@/data/product-pages/waitlist";
 import { getProduct, products } from "@/data/products";
 
@@ -26,5 +29,12 @@ export default async function ProductPage({ params }: PageProps<"/products/[slug
     return <WaitlistPdp content={waitlistPages[slug]} product={product} />;
   }
 
-  return <FlaskPdp product={product} />;
+  const machine = machinePages[slug];
+  if (machine) return <MachinePdp product={product} content={machine} />;
+
+  if (slug === "hydrogen-prebiotic") return <PrebioticPdp product={product} />;
+
+  if (slug === "echo-flask") return <FlaskPdp product={product} />;
+
+  notFound();
 }
