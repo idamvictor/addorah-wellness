@@ -99,6 +99,7 @@ function ShopMenu() {
     <div className="w-[min(475px,calc(100vw-2rem))] p-10">
       {featured && (
       <NavigationMenuLink
+        closeOnClick
         render={<Link href={`/products/${featured.slug}`} />}
         className="flex items-center gap-4 rounded-xl p-0 hover:bg-white/5 focus:bg-white/5"
       >
@@ -122,6 +123,7 @@ function ShopMenu() {
         {categories.map((category) => (
           <li key={category.slug}>
             <NavigationMenuLink
+              closeOnClick
               render={<Link href={`/shop?category=${category.slug}`} />}
               className="-mx-2 px-2 py-2.5 text-base font-semibold hover:bg-white/5 focus:bg-white/5"
             >
@@ -131,6 +133,7 @@ function ShopMenu() {
         ))}
         <li>
           <NavigationMenuLink
+            closeOnClick
             render={<Link href="/shop" />}
             className="-mx-2 px-2 py-2.5 text-base font-semibold hover:bg-white/5 focus:bg-white/5"
           >

@@ -1,9 +1,9 @@
 /* Addorah Wellness service worker: install support + offline fallback.
  * Pages are network-first (prices and stock stay fresh online); build assets and
- * images are cache-first (their URLs never change). The admin area, form posts and
+ * images are cache-first (their URLs never change). The admin area, checkout, form posts and
  * Next.js data requests are never cached. Bump VERSION to drop old caches. */
 
-const VERSION = "v1";
+const VERSION = "v2";
 const PAGES = `addorah-pages-${VERSION}`;
 const ASSETS = `addorah-assets-${VERSION}`;
 const OFFLINE_URL = "/offline";
@@ -28,7 +28,12 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-const isAdmin = (url) => url.pathname === "/admin" || url.pathname.startsWith("/admin/") || url.pathname.startsWith("/admin-manifest");
+// Admin and checkout pages hold live or personal data: always straight from the network.
+const isPrivate = (url) =>
+  url.pathname === "/admin" ||
+  url.pathname.startsWith("/admin/") ||
+  url.pathname.startsWith("/admin-manifest") ||
+  url.pathname.startsWith("/checkout");
 const isNextData = (request, url) =>
   request.headers.has("RSC") || request.headers.has("Next-Router-Prefetch") || url.searchParams.has("_rsc");
 const isImmutableAsset = (url) =>
@@ -72,7 +77,7 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin || isAdmin(url) || isNextData(request, url)) return;
+  if (url.origin !== self.location.origin || isPrivate(url) || isNextData(request, url)) return;
 
   if (request.mode === "navigate") {
     event.respondWith(networkFirstPage(request));

@@ -4,7 +4,7 @@ import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -14,8 +14,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { MAX_LINE_QTY } from "@/data/orders";
 import { productHref } from "@/data/products";
 import { formatNGN } from "@/lib/format";
+import { cn } from "@/lib/utils";
 import { useAppStore } from "@/providers/app-store-provider";
 import { useCatalog } from "@/providers/catalog-provider";
 import { selectCartSubtotal } from "@/stores/app-store";
@@ -28,6 +30,7 @@ export function CartDrawer() {
   const subtotal = useAppStore(selectCartSubtotal);
   const setQty = useAppStore((state) => state.setQty);
   const removeItem = useAppStore((state) => state.removeItem);
+  const unavailable = items.filter((line) => catalog.find((item) => item.slug === line.slug)?.status !== "available");
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -45,7 +48,16 @@ export function CartDrawer() {
             <ul className="flex flex-1 flex-col gap-6 overflow-y-auto px-5 py-6">
               {items.map((line) => {
                 const product = catalog.find((item) => item.slug === line.slug);
-                if (!product) return null;
+                if (!product) {
+                  return (
+                    <li key={`${line.slug}-${line.variant ?? ""}`} className="flex items-center justify-between gap-4 rounded-lg bg-haze px-4 py-3 text-sm">
+                      <span className="text-stone">An item in your cart is no longer available.</span>
+                      <button type="button" onClick={() => removeItem(line.slug, line.variant)} className="font-medium text-ink underline">
+                        Remove
+                      </button>
+                    </li>
+                  );
+                }
                 const href = productHref(product);
                 return (
                   <li key={`${line.slug}-${line.variant ?? ""}`} className="flex gap-4">
@@ -72,6 +84,11 @@ export function CartDrawer() {
                         <span className="text-xs text-stone">{line.variant}</span>
                       )}
                       <span className="text-sm text-stone">{formatNGN(line.price)}</span>
+                      {product.status !== "available" && (
+                        <span className="text-xs font-medium text-red-700">
+                          {product.status === "sold-out" ? "Sold out" : "Not available yet"} · remove to check out
+                        </span>
+                      )}
                       <div className="mt-auto flex items-center justify-between pt-2">
                         <div className="flex items-center rounded-md border border-ink/15">
                           <button
@@ -86,8 +103,9 @@ export function CartDrawer() {
                           <button
                             type="button"
                             aria-label="Increase quantity"
+                            disabled={line.qty >= MAX_LINE_QTY}
                             onClick={() => setQty(line.slug, line.variant, line.qty + 1)}
-                            className="flex size-8 items-center justify-center"
+                            className="flex size-8 items-center justify-center disabled:opacity-30"
                           >
                             <PlusIcon className="size-3.5" />
                           </button>
@@ -112,15 +130,24 @@ export function CartDrawer() {
                 <span className="tabular-nums">{formatNGN(subtotal)}</span>
               </div>
               <p className="text-xs text-stone">
-                Shipping and taxes calculated at checkout.
+                {unavailable.length ? "Remove unavailable items to check out." : "Free delivery. No payment needed online."}
               </p>
-              <Button
-                size="lg"
-                disabled
-                className="h-11 w-full rounded-lg bg-ink text-sm font-semibold text-white"
-              >
-                Checkout coming soon
-              </Button>
+              {unavailable.length ? (
+                <span
+                  aria-disabled
+                  className={cn(buttonVariants({ size: "lg" }), "h-11 w-full cursor-not-allowed rounded-lg bg-ink text-sm font-semibold text-white opacity-50")}
+                >
+                  Checkout
+                </span>
+              ) : (
+                <Link
+                  href="/checkout"
+                  onClick={() => setOpen(false)}
+                  className={cn(buttonVariants({ size: "lg" }), "h-11 w-full rounded-lg bg-ink text-sm font-semibold text-white")}
+                >
+                  Checkout
+                </Link>
+              )}
             </SheetFooter>
           </>
         )}

@@ -9,6 +9,15 @@ export const site = {
   supportEmail: "support@addorahwellness.com",
   salesEmail: "sales@addorahwellness.com",
   copyrightYear: 2026,
+  /**
+   * Shown to customers who choose "Bank transfer" at checkout.
+   * PLACEHOLDERS: replace with the business account before going live.
+   */
+  bankTransfer: {
+    bankName: "Your Bank Name",
+    accountName: "Addorah Wellness Ltd",
+    accountNumber: "0000000000",
+  },
   disclaimer:
     "These products are not intended to diagnose, treat, cure, or prevent any disease. Content on this site is for informational purposes only and should not be considered medical advice. Individual results may vary. Always consult a healthcare professional before use. Use of this site constitutes acceptance of our Terms of Use and Privacy Policy.",
 };

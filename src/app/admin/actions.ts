@@ -4,9 +4,11 @@ import { updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { categories, type CategorySlug } from "@/data/categories";
+import { type OrderStatus, orderStatuses } from "@/data/orders";
 import { type PriceSet, type Product, productBadges, type ProductBadge, type ProductStatus, productStatuses } from "@/data/products";
 import { checkPassword, createSession, destroySession, requireAdmin } from "@/lib/admin-session";
 import { CATALOG_TAG, mutateCatalog } from "@/lib/catalog";
+import { updateOrder } from "@/lib/orders";
 import { deleteUploadedImage, saveProductImage } from "@/lib/uploads";
 
 export type FormState = { error?: string; fieldErrors?: Record<string, string> } | undefined;
@@ -218,4 +220,21 @@ export async function deleteProduct(formData: FormData) {
 
   updateTag(CATALOG_TAG);
   redirect(`/admin?deleted=${encodeURIComponent(removed?.name ?? slug)}`);
+}
+
+// ---------- orders ----------
+
+export async function updateOrderStatus(id: string, _state: FormState, formData: FormData): Promise<FormState> {
+  await requireAdmin();
+  const status = text(formData, "status") as OrderStatus;
+  if (!orderStatuses.some((option) => option.value === status)) return { error: "Choose a status." };
+  const note = text(formData, "note").slice(0, 500) || undefined;
+
+  const updated = await updateOrder(id, (order) => {
+    if (order.status === status && !note) return order;
+    return { ...order, status, history: [...order.history, { status, at: new Date().toISOString(), ...(note && { note }) }] };
+  });
+  if (!updated) return { error: "This order no longer exists." };
+
+  redirect(`/admin/orders/${id}?saved=1`);
 }

@@ -25,7 +25,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps<"/ad
 
   return (
     <>
-      <AdminHeader />
+      <AdminHeader active="products" />
       <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>

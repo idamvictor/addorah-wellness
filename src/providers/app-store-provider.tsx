@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, createContext, useContext, useState } from "react";
+import { type ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { useStore } from "zustand";
 
 import { type AppState, type AppStore, createAppStore } from "@/stores/app-store";
@@ -21,6 +21,10 @@ export const AppStoreProvider = ({
   initState,
 }: AppStoreProviderProps) => {
   const [store] = useState(() => createAppStore(initState));
+
+  useEffect(() => {
+    void Promise.resolve(store.persist.rehydrate()).then(() => store.setState({ hydrated: true }));
+  }, [store]);
   return (
     <AppStoreContext.Provider value={store}>
       {children}

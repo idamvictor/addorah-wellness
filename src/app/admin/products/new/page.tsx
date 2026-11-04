@@ -13,7 +13,7 @@ export default async function NewProductPage() {
 
   return (
     <>
-      <AdminHeader />
+      <AdminHeader active="products" />
       <main className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6">
         <Link href="/admin" className="text-sm text-stone hover:text-ink">
           ← Products
